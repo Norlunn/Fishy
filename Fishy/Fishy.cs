@@ -18,13 +18,9 @@ namespace Fishy
         {
             InitializeComponent();
 
-            player1 = new FishyPlayer(
-                this,
-                new Point(200, 200),
-                new Size(50, 30),
-                Color.DarkCyan,
-                0.5
-            );
+            this.BackgroundImage = Properties.Resources.background;
+
+            player1 = new FishyPlayer(this);
             this.Controls.Add(player1.ObjectControl);
         }
 
@@ -37,11 +33,19 @@ namespace Fishy
         {
             if (e.KeyCode == Keys.Left)
             {
+                if (player1.XAcceleration > 0)
+                {
+                    player1.XAcceleration = player1.XAcceleration / 2;
+                }
                 player1.XAcceleration -= player1.DeltaAcceleration;
             }
 
             if (e.KeyCode == Keys.Right)
             {
+                if (player1.XAcceleration < 0)
+                {
+                    player1.XAcceleration = player1.XAcceleration / 2;
+                }
                 player1.XAcceleration += player1.DeltaAcceleration;
             }
 
@@ -58,7 +62,8 @@ namespace Fishy
 
         private void KeyIsUp(object sender, KeyEventArgs e)
         {
-
+            player1.XAcceleration = 0;
+            player1.YAcceleration = 0;
         }
     }
 
@@ -73,11 +78,15 @@ namespace Fishy
         private int _y;
         private int _width;
         private int _height;
-        private double _xVelocity = 1;
-        private double _yVelocity = 1;
-        private double _xAcceleration = 0.1;
-        private double _yAcceleration = 0.1;
+        private double _friction;
+        private double _xVelocity;
+        private double _yVelocity;
+        private double _velocityLimit;
+        private double _xAcceleration;
+        private double _yAcceleration;
         private double _deltaAcceleration;
+        private bool _flippedLeft;
+
         private int _score;
 
         public int X
@@ -107,12 +116,18 @@ namespace Fishy
             set { _height = value; }
         }
 
+        public double Friction
+        {
+            get { return _friction; }
+            set { _friction = value; }
+        }
+
         public double XVelocity
         {
             get { return _xVelocity; }
             set
             {
-                if (value > 1.0 || value < -1.0)
+                if (Math.Abs(value) < VelocityLimit)
                 {
                     _xVelocity = value;
                 }
@@ -124,11 +139,17 @@ namespace Fishy
             get { return _yVelocity; }
             set
             {
-                if (value > 1.0 || value < -1.0)
+                if (Math.Abs(value) < VelocityLimit)
                 {
                     _yVelocity = value;
                 }
             }
+        }
+
+        public double VelocityLimit
+        {
+            get { return _velocityLimit; }
+            set { _velocityLimit = value; }
         }
 
         public double XAcceleration
@@ -148,6 +169,12 @@ namespace Fishy
             set { _deltaAcceleration = value; }
         }
 
+        public bool FlippedLeft
+        {
+            get { return _flippedLeft; }
+            set { _flippedLeft = value; }
+        }
+
         public int Score
         {
             get { return _score; }
@@ -156,29 +183,42 @@ namespace Fishy
 
         // Methods
 
-        public GameObject(Form form, Point point, Size size, Color color, double deltaAcceleration)
-        {
-            _form = form;
-
-            ObjectControl = new PictureBox();
-            ObjectControl.Location = point;
-            ObjectControl.Size = size;
-            ObjectControl.BackColor = color;
-
-            DeltaAcceleration = deltaAcceleration;
-        }
-
         public void Move()
         {
-            double newX = X + (XVelocity * XAcceleration);
-            double newY = Y + (YVelocity * YAcceleration);
+            XVelocity += XAcceleration;
+            YVelocity += YAcceleration;
 
-            if (newX >= 0)
+            if (XAcceleration == 0)
+            {
+                XVelocity *= Friction;
+            }
+
+            if (YAcceleration == 0)
+            {
+                YVelocity *= Friction;
+            }
+
+            if (XVelocity < 0 && !FlippedLeft)
+            {
+                ObjectControl.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                FlippedLeft = true;
+            }
+            else if (XVelocity > 0 && FlippedLeft)
+            {
+                ObjectControl.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                FlippedLeft = false;
+            }
+
+            double newX = X + XVelocity;
+            double newY = Y + YVelocity;
+            
+            // Check boundaries
+            if (newX >= 0 && newX < (_form.Width - Width))
             {
                 X = Convert.ToInt32(newX);
             }
 
-            if (newY >= 0)
+            if (newY >= 0 && newY < (_form.Height - Height))
             {
                 Y = Convert.ToInt32(newY);
             }
@@ -190,17 +230,22 @@ namespace Fishy
 
     public class FishyPlayer : GameObject
     {
-        public FishyPlayer(Form form, Point point, Size size, Color color, double deltaAcceleration) : base(form, point, size, color, deltaAcceleration)
+        public FishyPlayer(Form form)
         {
             _form = form;
 
-            ObjectControl = new PictureBox();
-            ObjectControl.Location = point;
-            ObjectControl.Size = size;
-            ObjectControl.BackColor = color;
-            ObjectControl.Image = Image.FromFile("Images\\");
+            ObjectControl = new PictureBox
+            {
+                Size = new Size(50, 50),
+                Location = new Point((_form.Width / 2) - (Width / 2), (_form.Height / 2) - (Height / 2)),
+                Image = Properties.Resources.playerfish_raw,
+                BackColor = Color.Transparent,
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
 
-            DeltaAcceleration = deltaAcceleration;
+            DeltaAcceleration = 0.9;
+            Friction = 0.97;
+            VelocityLimit = 3.5;
         }
     }
 }
