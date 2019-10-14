@@ -86,5 +86,41 @@
   <ItemGroup>
     <None Include="Images\background.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_skeleton_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_skeleton_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\shark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fish_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\school_of_small_fish.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\FishyIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\dolphin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\piranha.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\whale.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
