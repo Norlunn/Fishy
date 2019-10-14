@@ -1,2 +1,2 @@
-# TimCo Retail Manager
-A retail management system built by TimCo Enterprise Solutions
+# Fishy
+A simple, yet classic WinForm game made with C#
