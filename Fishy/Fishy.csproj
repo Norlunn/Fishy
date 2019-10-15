@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -121,6 +122,41 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\whale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\crab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\bubbles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\FishyIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\comical_bite.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\oh_no.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\Retro-style-synth-music-loop.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\Retro-style-synth-music-loop.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\background.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
