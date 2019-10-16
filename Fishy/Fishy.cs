@@ -496,13 +496,13 @@ namespace Fishy
             int newY = Convert.ToInt32(Y + YVelocity);
 
             // Check boundaries
-            if (newX >= 10 && newX < (_form.Width - Width - 10))
+            if (newX >= 10 && newX < (_form.ClientSize.Width - Width - 10))
             {
                 X = newX;
                 Bounds = new Rectangle(newX, Y, Width, Height);
             }
 
-            if (newY >= 10 && newY < (_form.Height - Height - 10))
+            if (newY >= 10 && newY < (_form.ClientSize.Height - Height - 10))
             {
                 Y = newY;
                 Bounds = new Rectangle(X, newY, Width, Height);
@@ -562,7 +562,7 @@ namespace Fishy
             MinVelocityLimit = -5;
             MaxVelocityLimit = 5;
 
-            Y = rnd.Next(0, _form.Height - Height - 200);
+            Y = rnd.Next(0, _form.ClientSize.Height - Height - 200);
 
             int startPosition = rnd.Next(1, 3);
             switch (startPosition)
@@ -572,7 +572,7 @@ namespace Fishy
                     XVelocity = rnd.Next(1, 4);
                     break;
                 case 2: // Start right, swim left
-                    X = _form.Width + 100;
+                    X = _form.ClientSize.Width + 100;
                     XVelocity = rnd.Next(1, 4) * -1;
                     Img.RotateFlip(RotateFlipType.RotateNoneFlipX);
                     break;
@@ -618,7 +618,7 @@ namespace Fishy
             }
 
             X = 1;
-            Y = _form.Height - Height - 10;
+            Y = _form.ClientSize.Height - Height - 10;
 
             Bounds = new Rectangle(X, Y, Width, Height);
         }
@@ -626,7 +626,7 @@ namespace Fishy
         public void Move()
         {
             int newX = X + Convert.ToInt32(XVelocity);
-            if (newX > (_form.Width + 100))
+            if (newX > (_form.ClientSize.Width + 100))
             {
                 XVelocity *= -1;
                 X -= 10;
